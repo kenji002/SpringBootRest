@@ -1,6 +1,6 @@
 package com.example.job_app.job;
 
-public class job {
+public class Job {
 
     private Long id;
     private String title;
@@ -9,7 +9,10 @@ public class job {
     private String maxSalary;
     private String location;
 
-    public job(Long id, String title, String description, String minSalary, String maxSalary, String location) {
+    public Job() {
+    }
+
+    public Job(Long id, String title, String description, String minSalary, String maxSalary, String location) {
         this.id = id;
         this.title = title;
         this.description = description;

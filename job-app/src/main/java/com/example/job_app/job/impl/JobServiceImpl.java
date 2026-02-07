@@ -33,4 +33,9 @@ public class JobServiceImpl implements JobService {
         return null;
     }
 
+    @Override
+    public void deleteJob(Long id) {
+        jobs.removeIf(job -> job.getId().equals(id));
+    }
+
 }

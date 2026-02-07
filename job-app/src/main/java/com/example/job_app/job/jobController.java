@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,32 +22,42 @@ public class JobController {
 
     /* GET /jobs: 全ての求人情報を取得する */
     @GetMapping("/jobs")
-    public List<Job> findAll() {
-        return jobService.findAll();
+    public ResponseEntity<List<Job>> findAll() {
+        return ResponseEntity.ok(jobService.findAll());
     }
 
     /* POST /jobs: 新しい求人情報を追加する */
     @PostMapping("/jobs")
-    public String createJob(@RequestBody Job job) {
+    public ResponseEntity<String> createJob(@RequestBody Job job) {
         jobService.createJob(job);
-        return "Jobが正常に追加されました";
+        return ResponseEntity.ok("Jobが正常に追加されました");
     }
 
     /* GET /jobs/{id}: 指定されたIDの求人情報を取得する */
     @GetMapping("/jobs/{id}")
     public ResponseEntity<Job> getJobByID(@PathVariable Long id) {
-        System.out.println("GET /jobs/" + id + " check.");
         Job job = jobService.getJobByID(id);
         if (job == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(job);
     }
+
+    /** DELETE /jobs/{id}: 指定されたIDの求人情報を削除する */
+    @DeleteMapping("/jobs/{id}")
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
+        Job job = jobService.getJobByID(id);
+        if (job == null) {
+            return ResponseEntity.notFound().build();
+        }
+        jobService.deleteJob(id);
+        return ResponseEntity.ok("Jobが正常に削除されました");
+    }
+
 }
 
 /**
  * - PUT /jobs/{id}: 指定されたIDの求人情報を更新する
- * - DELETE /jobs/{id}: 指定されたIDの求人情報を削除する
  * - GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する
  * 
  * Example API URLs:

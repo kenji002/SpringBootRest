@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,10 +55,30 @@ public class JobController {
         return ResponseEntity.ok("Jobが正常に削除されました");
     }
 
+    /* PUT /jobs/{id}: 指定されたIDの求人情報を更新する */
+    @PutMapping("/jobs/{id}")
+    public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody Job job) {
+        Job existingJob = jobService.getJobByID(id);
+        if (existingJob == null) {
+            return ResponseEntity.notFound().build();
+        }
+        jobService.updateJob(id, job);
+        return ResponseEntity.ok("Jobが正常に更新されました");
+    }
+
+    /* GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する */
+    @GetMapping("/jobs/{id}/company")
+    public ResponseEntity<Company> getCompanyByJobID(@PathVariable Long id) {
+        Job job = jobService.getJobByID(id);
+        if (job == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(job.getCompany());
+    }
+
 }
 
 /**
- * - PUT /jobs/{id}: 指定されたIDの求人情報を更新する
  * - GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する
  * 
  * Example API URLs:

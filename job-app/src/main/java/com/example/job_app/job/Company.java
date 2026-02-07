@@ -7,13 +7,10 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Job {
+public class Company {
     private Long id;
-    private String title;
-    private String description;
-    private String minSalary;
-    private String maxSalary;
+    private String name;
     private String location;
-    private Company company;
+    private String website;
+    private String logo;
 }

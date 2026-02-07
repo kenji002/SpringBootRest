@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class JobServiceImpl implements JobService {
-    List<Job> jobs = new ArrayList<>();
+    private List<Job> jobs = new ArrayList<>();
     private Long nextId = 1L; // IDの初期値を1に設定
 
     @Override
@@ -21,6 +21,16 @@ public class JobServiceImpl implements JobService {
     public void createJob(Job job) {
         job.setId(nextId++);
         jobs.add(job);
+    }
+
+    @Override
+    public Job getJobByID(Long id) {
+        for (Job job : jobs) {
+            if (id.equals(job.getId())) {
+                return job;
+            }
+        }
+        return null;
     }
 
 }

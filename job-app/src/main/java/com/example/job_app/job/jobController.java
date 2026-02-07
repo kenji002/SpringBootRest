@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/jobs")
 public class JobController {
     private final JobService jobService;
 
@@ -22,20 +24,20 @@ public class JobController {
     }
 
     /* GET /jobs: 全ての求人情報を取得する */
-    @GetMapping("/jobs")
+    @GetMapping
     public ResponseEntity<List<Job>> findAll() {
         return ResponseEntity.ok(jobService.findAll());
     }
 
     /* POST /jobs: 新しい求人情報を追加する */
-    @PostMapping("/jobs")
+    @PostMapping
     public ResponseEntity<String> createJob(@RequestBody Job job) {
         jobService.createJob(job);
         return ResponseEntity.ok("Jobが正常に追加されました");
     }
 
-    /* GET /jobs/{id}: 指定されたIDの求人情報を取得する */
-    @GetMapping("/jobs/{id}")
+    /** GET /jobs/{id}: 指定されたIDの求人情報を取得する */
+    @GetMapping("/{id}")
     public ResponseEntity<Job> getJobByID(@PathVariable Long id) {
         Job job = jobService.getJobByID(id);
         if (job == null) {
@@ -45,7 +47,7 @@ public class JobController {
     }
 
     /** DELETE /jobs/{id}: 指定されたIDの求人情報を削除する */
-    @DeleteMapping("/jobs/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         Job job = jobService.getJobByID(id);
         if (job == null) {
@@ -55,8 +57,8 @@ public class JobController {
         return ResponseEntity.ok("Jobが正常に削除されました");
     }
 
-    /* PUT /jobs/{id}: 指定されたIDの求人情報を更新する */
-    @PutMapping("/jobs/{id}")
+    /** PUT /jobs/{id}: 指定されたIDの求人情報を更新する */
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody Job job) {
         Job existingJob = jobService.getJobByID(id);
         if (existingJob == null) {
@@ -67,14 +69,14 @@ public class JobController {
     }
 
     /* GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する */
-    @GetMapping("/jobs/{id}/company")
-    public ResponseEntity<Company> getCompanyByJobID(@PathVariable Long id) {
-        Job job = jobService.getJobByID(id);
-        if (job == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(job.getCompany());
-    }
+    // @GetMapping("/{id}/company")
+    // public ResponseEntity<Company> getCompanyByJobID(@PathVariable Long id) {
+    // Job job = jobService.getJobByID(id);
+    // if (job == null) {
+    // return ResponseEntity.notFound().build();
+    // }
+    // return ResponseEntity.ok(job.getCompany());
+    // }
 
 }
 

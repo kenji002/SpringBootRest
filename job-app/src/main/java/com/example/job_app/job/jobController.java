@@ -36,13 +36,8 @@ public class JobController {
     @GetMapping("/jobs/{id}")
     public ResponseEntity<Job> getJobByID(@PathVariable Long id) {
         System.out.println("GET /jobs/" + id + " check.");
-        if (jobService == null) {
-            System.out.println("Error: jobService is null");
-            return ResponseEntity.internalServerError().build();
-        }
         Job job = jobService.getJobByID(id);
         if (job == null) {
-            System.out.println("Job not found for index: " + id);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(job);

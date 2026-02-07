@@ -4,14 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/jobs")
@@ -31,9 +24,9 @@ public class JobController {
 
     /* POST /jobs: 新しい求人情報を追加する */
     @PostMapping
-    public ResponseEntity<String> createJob(@RequestBody Job job) {
+    public ResponseEntity<Void> createJob(@RequestBody Job job) {
         jobService.createJob(job);
-        return ResponseEntity.ok("Jobが正常に追加されました");
+        return ResponseEntity.created(null).build();
     }
 
     /** GET /jobs/{id}: 指定されたIDの求人情報を取得する */
@@ -48,24 +41,16 @@ public class JobController {
 
     /** DELETE /jobs/{id}: 指定されたIDの求人情報を削除する */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
-        Job job = jobService.getJobByID(id);
-        if (job == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         jobService.deleteJob(id);
-        return ResponseEntity.ok("Jobが正常に削除されました");
+        return ResponseEntity.noContent().build();
     }
 
     /** PUT /jobs/{id}: 指定されたIDの求人情報を更新する */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody Job job) {
-        Job existingJob = jobService.getJobByID(id);
-        if (existingJob == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> updateJob(@PathVariable Long id, @RequestBody Job job) {
         jobService.updateJob(id, job);
-        return ResponseEntity.ok("Jobが正常に更新されました");
+        return ResponseEntity.noContent().build();
     }
 
     /* GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する */

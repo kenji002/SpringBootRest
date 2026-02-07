@@ -36,11 +36,10 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void deleteJob(Long id) {
-        try {
-            jobRepository.deleteById(id);
-        } catch (Exception e) {
-            // エラー処理（必要に応じて）
+        if (!jobRepository.existsById(id)) {
+            throw new RuntimeException("Job not found");
         }
+        jobRepository.deleteById(id);
     }
 
     @Override

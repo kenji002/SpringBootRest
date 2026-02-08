@@ -51,4 +51,9 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.save(existingCompany);
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return companyRepository.existsById(id);
+    }
+
 }

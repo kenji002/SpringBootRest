@@ -2,6 +2,7 @@ package com.example.job_app.reviews;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,8 +21,9 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public Review addReview(@PathVariable Long companyId, @RequestBody Review review) {
-        return reviewService.addReview(companyId, review);
+    public ResponseEntity<String> addReview(@PathVariable Long companyId, @RequestBody Review review) {
+        reviewService.addReview(companyId, review);
+        return ResponseEntity.ok("Review added successfully");
     }
 
     @GetMapping("/reviews/{reviewId}")
@@ -30,12 +32,15 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{reviewId}")
-    public Review deleteReview(@PathVariable Long companyId, @PathVariable Long reviewId) {
-        return reviewService.deleteReview(companyId, reviewId);
+    public ResponseEntity<String> deleteReview(@PathVariable Long companyId, @PathVariable Long reviewId) {
+        reviewService.deleteReview(companyId, reviewId);
+        return ResponseEntity.ok("Review deleted successfully");
     }
 
     @PutMapping("/reviews/{reviewId}")
-    public Review updateReview(@PathVariable Long companyId, @PathVariable Long reviewId, @RequestBody Review review) {
-        return reviewService.updateReview(companyId, reviewId, review);
+    public ResponseEntity<String> updateReview(@PathVariable Long companyId, @PathVariable Long reviewId,
+            @RequestBody Review review) {
+        reviewService.updateReview(companyId, reviewId, review);
+        return ResponseEntity.ok("Review updated successfully");
     }
 }

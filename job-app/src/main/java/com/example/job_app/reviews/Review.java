@@ -3,10 +3,7 @@ package com.example.job_app.reviews;
 import com.example.job_app.company.Company;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "review_table")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -14,4 +14,6 @@ public interface CompanyService {
 
     void updateCompany(Long id, Company company);
 
+    boolean existsById(Long companyId);
+
 }

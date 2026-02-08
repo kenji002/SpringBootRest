@@ -24,10 +24,12 @@ public class JobController {
 
     /* POST /jobs: 新しい求人情報を追加する */
     @PostMapping
-    public ResponseEntity<Void> createJob(@RequestBody Job job) {
-        jobService.createJob(job);
-
-        return ResponseEntity.created(null).build();
+    public ResponseEntity<String> createJob(@RequestBody Job job) {
+        if (jobService.createJob(job)) {
+            return ResponseEntity.ok("Job created successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     /** GET /jobs/{id}: 指定されたIDの求人情報を取得する */
@@ -42,16 +44,22 @@ public class JobController {
 
     /** DELETE /jobs/{id}: 指定されたIDの求人情報を削除する */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
-        jobService.deleteJob(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
+        if (jobService.deleteJob(id)) {
+            return ResponseEntity.ok("Job deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     /** PUT /jobs/{id}: 指定されたIDの求人情報を更新する */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateJob(@PathVariable Long id, @RequestBody Job job) {
-        jobService.updateJob(id, job);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody Job job) {
+        if (jobService.updateJob(id, job)) {
+            return ResponseEntity.ok("Job updated successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     /* GET /jobs/{id}/company: 指定されたIDの求人情報の会社情報を取得する */

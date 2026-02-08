@@ -1,5 +1,7 @@
 package com.example.job_app.reviews.impl;
 
+import com.example.job_app.company.Company;
+
 import java.util.List;
 
 import com.example.job_app.company.CompanyService;
@@ -29,8 +31,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review addReview(Long companyId, Review review) {
-        return reviewRepository.save(review);
+    public boolean addReview(Long companyId, Review review) {
+        Company company = companyService.getCompanyByID(companyId);
+        if (company != null) {
+            review.setCompany(company);
+            reviewRepository.save(review);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -39,23 +47,25 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review deleteReview(Long companyId, Long reviewId) {
+    public boolean deleteReview(Long companyId, Long reviewId) {
         Review review = reviewRepository.findById(reviewId).orElse(null);
         if (review != null) {
             reviewRepository.delete(review);
+            return true;
         }
-        return review;
+        return false;
     }
 
     @Override
-    public Review updateReview(Long companyId, Long reviewId, Review review) {
+    public boolean updateReview(Long companyId, Long reviewId, Review review) {
         Review existingReview = reviewRepository.findById(reviewId).orElse(null);
         if (existingReview != null) {
             existingReview.setTitle(review.getTitle());
             existingReview.setDescription(review.getDescription());
             existingReview.setRating(review.getRating());
             reviewRepository.save(existingReview);
+            return true;
         }
-        return existingReview;
+        return false;
     }
 }

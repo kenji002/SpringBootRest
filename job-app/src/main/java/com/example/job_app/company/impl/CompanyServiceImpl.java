@@ -23,8 +23,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void createCompany(Company company) {
+    public boolean createCompany(Company company) {
+        if (company.getId() != null && companyRepository.existsById(company.getId())) {
+            return false;
+        }
         companyRepository.save(company);
+        return true;
     }
 
     @Override
@@ -33,27 +37,29 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void deleteCompany(Long id) {
+    public boolean deleteCompany(Long id) {
         if (!companyRepository.existsById(id)) {
-            throw new RuntimeException("Company not found");
+            return false;
         }
         companyRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public void updateCompany(Long id, Company company) {
+    public boolean updateCompany(Long id, Company company) {
         if (!companyRepository.existsById(id)) {
-            throw new RuntimeException("Company not found");
+            return false;
         }
         Company existingCompany = companyRepository.findById(id).get();
         existingCompany.setName(company.getName());
         existingCompany.setDescription(company.getDescription());
         companyRepository.save(existingCompany);
+        return true;
     }
 
     @Override
-    public boolean existsById(Long id) {
-        return companyRepository.existsById(id);
+    public boolean existsById(Long companyId) {
+        return companyRepository.existsById(companyId);
     }
 
 }

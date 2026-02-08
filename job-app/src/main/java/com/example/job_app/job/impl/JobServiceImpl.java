@@ -6,7 +6,6 @@ import com.example.job_app.job.JobService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -25,8 +24,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void createJob(Job job) {
+    public boolean createJob(Job job) {
+        if (job.getId() != null && jobRepository.existsById(job.getId())) {
+            return false;
+        }
         jobRepository.save(job);
+        return true;
     }
 
     @Override
@@ -35,24 +38,26 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void deleteJob(Long id) {
+    public boolean deleteJob(Long id) {
         if (!jobRepository.existsById(id)) {
-            throw new RuntimeException("Job not found");
+            return false;
         }
         jobRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public void updateJob(Long id, Job job) {
-        Optional<Job> jobOptional = jobRepository.findById(id);
-        if (jobOptional.isPresent()) {
-            Job existingJob = jobOptional.get();
-            existingJob.setTitle(job.getTitle());
-            existingJob.setDescription(job.getDescription());
-            existingJob.setMinSalary(job.getMinSalary());
-            existingJob.setMaxSalary(job.getMaxSalary());
-            existingJob.setLocation(job.getLocation());
-            jobRepository.save(existingJob);
+    public boolean updateJob(Long id, Job job) {
+        if (!jobRepository.existsById(id)) {
+            return false;
         }
+        Job existingJob = jobRepository.findById(id).get();
+        existingJob.setTitle(job.getTitle());
+        existingJob.setDescription(job.getDescription());
+        existingJob.setMinSalary(job.getMinSalary());
+        existingJob.setMaxSalary(job.getMaxSalary());
+        existingJob.setLocation(job.getLocation());
+        jobRepository.save(existingJob);
+        return true;
     }
 }

@@ -6,14 +6,14 @@ public interface CompanyService {
 
     List<Company> findAllCompanies();
 
-    void createCompany(Company company);
+    boolean createCompany(Company company);
 
     Company getCompanyByID(Long id);
 
-    void deleteCompany(Long id);
+    boolean deleteCompany(Long id);
 
-    void updateCompany(Long id, Company company);
+    boolean updateCompany(Long id, Company company);
 
-    boolean existsById(Long companyId);
+    boolean existsById(Long id);
 
 }

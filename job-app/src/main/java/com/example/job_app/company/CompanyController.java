@@ -20,9 +20,12 @@ public class CompanyController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCompany(@RequestBody Company company) {
-        companyService.createCompany(company);
-        return ResponseEntity.created(null).build();
+    public ResponseEntity<String> createCompany(@RequestBody Company company) {
+        if (companyService.createCompany(company)) {
+            return ResponseEntity.ok("Company created successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/{id}")
@@ -35,14 +38,20 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
-        companyService.deleteCompany(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteCompany(@PathVariable Long id) {
+        if (companyService.deleteCompany(id)) {
+            return ResponseEntity.ok("Company deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCompany(@PathVariable Long id, @RequestBody Company company) {
-        companyService.updateCompany(id, company);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody Company company) {
+        if (companyService.updateCompany(id, company)) {
+            return ResponseEntity.ok("Company updated successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

@@ -22,25 +22,38 @@ public class ReviewController {
 
     @PostMapping("/reviews")
     public ResponseEntity<String> addReview(@PathVariable Long companyId, @RequestBody Review review) {
-        reviewService.addReview(companyId, review);
-        return ResponseEntity.ok("Review added successfully");
+        if (reviewService.addReview(companyId, review)) {
+            return ResponseEntity.ok("Review added successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/reviews/{reviewId}")
-    public Review getReview(@PathVariable Long companyId, @PathVariable Long reviewId) {
-        return reviewService.getReview(companyId, reviewId);
+    public ResponseEntity<Review> getReview(@PathVariable Long companyId, @PathVariable Long reviewId) {
+        Review review = reviewService.getReview(companyId, reviewId);
+        if (review == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(review);
     }
 
     @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable Long companyId, @PathVariable Long reviewId) {
-        reviewService.deleteReview(companyId, reviewId);
-        return ResponseEntity.ok("Review deleted successfully");
+        if (reviewService.deleteReview(companyId, reviewId)) {
+            return ResponseEntity.ok("Review deleted successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/reviews/{reviewId}")
     public ResponseEntity<String> updateReview(@PathVariable Long companyId, @PathVariable Long reviewId,
             @RequestBody Review review) {
-        reviewService.updateReview(companyId, reviewId, review);
-        return ResponseEntity.ok("Review updated successfully");
+        if (reviewService.updateReview(companyId, reviewId, review)) {
+            return ResponseEntity.ok("Review updated successfully");
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

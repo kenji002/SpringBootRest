@@ -5,11 +5,11 @@ import java.util.List;
 public interface JobService {
     List<Job> findAll();
 
-    void createJob(Job job);
+    boolean createJob(Job job);
 
     Job getJobByID(Long id);
 
-    void deleteJob(Long id);
+    boolean deleteJob(Long id);
 
-    void updateJob(Long id, Job job);
+    boolean updateJob(Long id, Job job);
 }

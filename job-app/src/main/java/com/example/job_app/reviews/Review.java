@@ -1,6 +1,7 @@
 package com.example.job_app.reviews;
 
 import com.example.job_app.company.Company;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class Review {
     private String description;
     private double rating;
 
+    @JsonIgnore
     @ManyToOne
     private Company company;
 

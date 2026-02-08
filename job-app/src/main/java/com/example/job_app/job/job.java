@@ -1,5 +1,6 @@
 package com.example.job_app.job;
 
+import com.example.job_app.company.Company;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,7 @@ public class Job {
     private String minSalary;
     private String maxSalary;
     private String location;
+
+    @ManyToOne
+    private Company company;
 }

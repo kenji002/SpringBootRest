@@ -24,9 +24,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getAllReviews(Long companyId) {
-        if (!companyService.existsById(companyId)) {
-            throw new RuntimeException("Company not found");
-        }
         return reviewRepository.findByCompanyId(companyId);
     }
 

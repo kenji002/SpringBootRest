@@ -58,8 +58,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean existsById(Long companyId) {
-        return companyRepository.existsById(companyId);
+    public boolean existsById(Long Id) {
+        return companyRepository.existsById(Id);
     }
 
 }
